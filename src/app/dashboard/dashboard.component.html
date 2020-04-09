@@ -10,9 +10,9 @@
           Archivo
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-          <a class="dropdown-item" href="#">Nuevo Pestaña</a>
-          <a class="dropdown-item" href="#">Abrir Documento</a>
-          <a class="dropdown-item" href="#">Guardar Como</a>
+          <p class="dropdown-item" (click)="agregarTabs()">Nuevo Pestaña</p>
+          <p class="dropdown-item" >Abrir Documento</p>
+          <p class="dropdown-item" >Guardar Como</p>
         </div>
       </li>
     </ul>
@@ -27,7 +27,7 @@
 </div>
 <div class="container">
   <div class="row">
-    <div class="col">
+    <div class="col" style="height: 400px;">
       <ul class="nav nav-tabs">
       <li class="nav-item" *ngFor="let data of tabs">
           <a class="nav-link" data-toggle="tab" href="#Tab{{data}}">Pestaña No. {{data}}</a>
@@ -37,28 +37,80 @@
           <div class="tab-pane" id="Tab{{data}}" *ngFor="let data of tabs">
             <form>
             <div class="form-group">
-              <textarea class="form-control" id="exampleFormControlTextarea1" rows="10" placeholder="Editor de Texto"></textarea>
+              <textarea #textArea class="form-control" id="exampleFormControlTextarea1" rows="12" placeholder="Editor de Texto"></textarea>
             </div>
-            <button type="button" class="btn btn-outline-dark">Analizar</button>
+            <button type="button" class="btn btn-outline-dark" (click)="obtenerTexto(textArea.value)"
+            data-toggle="popover" title="Analizar" data-content="Al presionar analiza lexicamente y sintacticamente el codigo fuente.">Analizar</button>
             </form>
           </div>
       </div>
     </div>
+    <div class="col" style="height: 400px;">
+      <div class="form-group" style="height: 100%;">
+        <textarea style="height: 100%;" class="form-control" id="exampleFormControlTextarea2" rows="10" placeholder="Consola"></textarea>
+      </div>
+    </div>
+  </div>
+  <br>
+  <div class="row">
     <div class="col">
-      <div class="terminal" style="width: 100%;">
-          <pre>Aliqua ex deserunt incididunt occaecat. Esse labore velit tempor sint veniam cupidatat sunt fugiat ea adipisicing non elit. Ullamco aute ullamco adipisicing aute. Minim id minim exercitation proident in ad dolore dolor esse cupidatat tempor consectetur do laborum.
-
-Eu est est ad sit tempor do. Sunt nostrud adipisicing consequat voluptate ex voluptate commodo anim excepteur mollit. Et cillum pariatur non ut fugiat culpa fugiat.
-
-Exercitation adipisicing cillum velit occaecat incididunt ipsum adipisicing incididunt et nostrud sunt eu. Dolore id occaecat sint nisi ipsum ea veniam amet. Consectetur qui esse nisi fugiat. Dolore ut eu esse sit consectetur sunt elit tempor. Non consequat fugiat dolor reprehenderit amet Lorem. Est dolor minim velit culpa ipsum laborum exercitation reprehenderit.
-
-Magna enim irure commodo sit. Ea commodo qui amet qui ut aliqua Lorem nulla nisi anim dolore duis. Fugiat incididunt deserunt aliqua tempor non eu ut qui do dolor. Excepteur aute velit in est veniam eiusmod velit sint. Velit exercitation occaecat nulla adipisicing et do sint esse et proident excepteur reprehenderit sit. Esse dolor esse labore adipisicing culpa sit duis dolore. Commodo adipisicing dolore deserunt sint.
-
-Et velit voluptate duis sint sunt commodo ut sint labore sunt nisi exercitation dolore. Ex tempor ut incididunt anim tempor ut incididunt ea velit. Amet sit sit fugiat sint. Eiusmod consectetur consectetur proident culpa voluptate consequat. Irure id tempor sit mollit commodo sint exercitation dolor dolore aliquip amet nisi incididunt. Elit velit voluptate pariatur in. Fugiat proident labore incididunt ad consequat veniam occaecat adipisicing cillum adipisicing nulla ex ex.
-
-Sunt consectetur ea culpa tempor ad nisi eiusmod consequat laborum elit. Cupidatat Lorem nisi velit ad aute est et commodo. Deserunt laboris nostrud ullamco fugiat magna mollit.
-
-Est dolor Lorem excepteur nulla commodo exercitation nulla veniam dolor in. Nulla ad ut deserunt fugiat deserunt qui veniam ad mollit anim dolore ad duis. Velit dolor minim sint incididunt ut aute. Minim non est proident fugiat excepteur. Est excepteur officia ex pariatur mollit laboris adipisicing. Sit duis magna labore eiusmod dolore ut commodo anim sunt irure reprehenderit occaecat nisi.</pre>
+      <h1 class="display-4">Tabla de Variables</h1>
+      <hr>
+      <table class="table table-dark">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Handle</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">1</th>
+            <td>Mark</td>
+            <td>Otto</td>
+            <td>@mdo</td>
+          </tr>
+          <tr>
+            <th scope="row">2</th>
+            <td>Jacob</td>
+            <td>Thornton</td>
+            <td>@fat</td>
+          </tr>
+          <tr>
+            <th scope="row">3</th>
+            <td>Larry</td>
+            <td>the Bird</td>
+            <td>@twitter</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col">
+      <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#TabHTML">HTML</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#TabJSON">JSON</a>
+      </li>
+      </ul>
+      <div class="tab-content">
+          <div class="tab-pane" id="TabHTML">
+            <form>
+            <div class="form-group">
+              <textarea #textAreaHTML class="form-control" id="exampleFormControlTextareaHTML" rows="12" placeholder="Editor de HTML"></textarea>
+            </div>
+            </form>
+          </div>
+          <div class="tab-pane" id="TabJSON">
+            <form>
+            <div class="form-group">
+              <textarea #textAreaJSON class="form-control" id="exampleFormControlTextareaJSON" rows="12" placeholder="Editor de JSON"></textarea>
+            </div>
+            </form>
+          </div>
       </div>
     </div>
   </div>
