@@ -6,6 +6,9 @@ export class AnalizadorLexico {
     private static instancia: AnalizadorLexico;
     private auxiliar: string = "";
 
+    constructor() {
+    }
+
     public static getInstancia(): AnalizadorLexico {
         if (this.instancia == null) {
             this.instancia = new AnalizadorLexico();
@@ -34,9 +37,9 @@ export class AnalizadorLexico {
                      * ANALIZA SALTO DE LINEA 
                      */
                     else if (letra == '\n') {
-                        estado = 0;
                         columna = 0;
                         fila++;
+                        estado = 0;
                     }
                     /**
                      * ANALIZA ESPACIOS EN BLANCO 
@@ -49,77 +52,15 @@ export class AnalizadorLexico {
                      * ANALIZA TABULACIONES 
                      */
                     else if (letra == '\t') {
-                        estado = 0;
                         columna++;
+                        estado = 0;
                     }
                     /**
                      * ANALIZA DIGITOS 
                      */
                     else if (CaracteresLenguaje.getInstancia().esDigito(letra)) {
-                        estado = 2;
                         this.auxiliar += letra;
-                    }
-                    /**
-                     * ANALIZA PUNTUACIONES 
-                     */
-                    else if (CaracteresLenguaje.getInstancia().esPuntuacion(letra)) {
-                        if (letra == "!") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Exclamacion", fila, columna - 1);
-                        }
-                        else if (letra == "&") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Ampersand", fila, columna - 1);
-                        }
-                        else if (letra == ".") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Punto", fila, columna - 1);
-                        }
-                        else if (letra == ",") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Coma", fila, columna - 1);
-                        }
-                        else if (letra == ":") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Dos_Puntos", fila, columna - 1);
-                        }
-                        else if (letra == ";") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Punto_Coma", fila, columna - 1);
-                        }
-                        else if (letra == "{") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Llave_Izquierda", fila, columna - 1);
-                        }
-                        else if (letra == "}") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Llave_Derecha", fila, columna - 1);
-                        }
-                        else if (letra == "[") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Corchete_Izquierda", fila, columna - 1);
-                        }
-                        else if (letra == "(") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Parentesis_Izquierda", fila, columna - 1);
-                        }
-                        else if (letra == ")") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Parentesis_Derecha", fila, columna - 1);
-                        }
-                        else if (letra == "]") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Corchete_Derecha", fila, columna - 1);
-                        }
-                        else if (letra == "?") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Interrogacion", fila, columna - 1);
-                        }
-                        else if (letra == "*") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Multiplicacion", fila, columna - 1);
-                        }
-                        else if (letra == "/") {
-                            estado = 3;
-                            this.auxiliar += letra;
-                        }
-                        else if (letra == '"') {
-                            estado = 8;
-                            this.auxiliar += letra;
-                        }
-                        else if (letra == "'") {
-                            estado = 10;
-                            this.auxiliar += letra;
-                        }
-                        else if (letra == "-") {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Resta", fila, columna - 1);
-                        }
+                        estado = 2;
                     }
                     /**
                      * ANALIZA SIMBOLOS 
@@ -139,9 +80,69 @@ export class AnalizadorLexico {
                         } 
                         else if (letra == '=') {
                             TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Igual", fila, columna - 1);
-                        } 
-                        else if (letra == '_') {
-                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Guion_Bajo", fila, columna - 1);
+                        }
+                    }
+                    /**
+                     * ANALIZA PUNTUACIONES 
+                     */
+                    else if (CaracteresLenguaje.getInstancia().esPuntuacion(letra)) {
+                        if (letra == ";") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Punto_Coma", fila, columna - 1);
+                        }
+                        else if (letra == "!") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Exclamacion", fila, columna - 1);
+                        }
+                        else if (letra == "&") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Ampersand", fila, columna - 1);
+                        }
+                        else if (letra == ".") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Punto", fila, columna - 1);
+                        }
+                        else if (letra == ",") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Coma", fila, columna - 1);
+                        }
+                        else if (letra == ":") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Dos_Puntos", fila, columna - 1);
+                        }
+                        else if (letra == "{") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Llave_Izquierda", fila, columna - 1);
+                        }
+                        else if (letra == "}") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Llave_Derecha", fila, columna - 1);
+                        }
+                        else if (letra == "[") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Corchete_Izquierda", fila, columna - 1);
+                        }
+                        else if (letra == "]") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Corchete_Derecha", fila, columna - 1);
+                        }
+                        else if (letra == "(") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Parentesis_Izquierda", fila, columna - 1);
+                        }
+                        else if (letra == ")") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Parentesis_Derecha", fila, columna - 1);
+                        }
+                        else if (letra == "?") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Interrogacion", fila, columna - 1);
+                        }
+                        else if (letra == "*") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Multiplicacion", fila, columna - 1);
+                        }
+                        else if (letra == "-") {
+                            TokenControlador.getInstancia().agregarToken(letra.toString(), "S_Resta", fila, columna - 1);
+                        }
+                        else if (letra == "/") {
+                            estado = 5;
+                            i--;
+                            columna--;
+                        }
+                        else if (letra == '"') {
+                            estado = 10;
+                            this.auxiliar += letra;
+                        }
+                        else if (letra == "'") {
+                            estado = 12;
+                            this.auxiliar += letra;
                         }
                     }
                     else {
@@ -169,9 +170,9 @@ export class AnalizadorLexico {
                             TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Identificador", fila, (columna - this.auxiliar.length - 1));
                         }
                         this.auxiliar = "";
-                        estado = 0;
                         i--;
                         columna--;
+                        estado = 0;
                     }
                     break;
                 case 2:
@@ -180,9 +181,8 @@ export class AnalizadorLexico {
                         estado = 2;
                     } else if (letra == ".") {
                         this.auxiliar += letra;
-                        estado = 12;
-                    }   
-                    else {
+                        estado = 3;
+                    } else {
                         TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Numero", fila, columna);
                         i--;
                         columna--; 
@@ -191,94 +191,86 @@ export class AnalizadorLexico {
                     }
                     break;
                 case 3:
-                    if (letra == '/') {
-                        estado = 4;
+                    if(CaracteresLenguaje.getInstancia().esDigito(letra)){
                         this.auxiliar += letra;
-                    } else if (letra == '*') {
-                        estado = 5;
+                        estado = 4;
+                    } else {
+                        estado = 0;
+                        this.auxiliar = "";
+                    }  
+                    break; 
+                case 4:
+                    if(CaracteresLenguaje.getInstancia().esDigito(letra)){
+                        this.auxiliar += letra;
+                        estado = 4;
+                    } else {
+                        TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Decimal", fila, (columna - this.auxiliar.length));  
+                        estado = 0;
                         i--;
                         columna--;
+                        this.auxiliar = "";
+                    }  
+                    break; 
+                case 5:
+                    if(letra == "/"){
+                        this.auxiliar += letra;
+                        estado = 6;
+                    }
+                    break;
+                case 6:
+                    if (letra == '/') {
+                        this.auxiliar += letra;
+                        estado = 7;
+                    } else if (letra == '*') {
+                        this.auxiliar += letra;
+                        estado = 8;
                     } else {
                         TokenControlador.getInstancia().agregarToken("/", "S_Division", fila, columna);
+                        this.auxiliar = "";
                         i--;
                         columna--;
                         estado = 0;    
                     }   
-                    break;
-                case 4:
+                    break;   
+                case 7:
                     if (letra != '\n') {
                         this.auxiliar += letra;
-                        estado = 4;
+                        estado = 7;
                     }
                     else {
                         TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Comentario_Linea", fila, 0);
                         fila++; columna = 0;
-                        estado = 0;
                         this.auxiliar = "";
-                    }
-                    break;
-                case 5:
-                    if (letra == '*') {
-                        estado = 6;
-                        this.auxiliar += letra;
-                    }
-                    else {
-                        this.auxiliar = "";
-                        TokenControlador.getInstancia().agregarToken("/", "S_Division", fila, columna - 1);
                         estado = 0;
-                        i--;
                     }
-                    break;
-                case 6:
+                    break;  
+                case 8:
                     if (letra != '*') {
                         if (letra == '\n'){ 
                             fila++; 
                             columna = 0; 
                         }
                         this.auxiliar += letra;
-                        estado = 6;
-                    }
-                    else {
+                        estado = 8;
+                    } else {
                         this.auxiliar += letra;
-                        estado = 7;
+                        estado = 9;
                     }
-                    break;
-                case 7:
+                    break;   
+                case 9:
                     if (letra == '/') {
                         this.auxiliar += letra;
-                        TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Comentario_Multilinea", fila, columna);
-                        estado = 0;
+                        TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Comentario_Multilinea", fila, 0);
                         this.auxiliar = "";
-                    } else{
-                        this.auxiliar += letra;
-                        estado = 6;
-                    }  
+                        estado = 0;
+                    }
                     break;
-                case 8:
+                case 10:
                     if (letra != '"') {
                         if (letra == '\n'){ 
                             fila++; 
                             columna = 0; 
                         }
-                        this.auxiliar += letra;
-                        estado = 8;
-                    }
-                    else {
-                        estado = 9;
-                        this.auxiliar += letra;
-                        i--; columna--;
-                    }
-                    break;
-                case 9:
-                    if (letra == '"') {
-                        TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Cadena", fila, (columna - this.auxiliar.length));
-                        estado = 0;
-                        this.auxiliar = "";
-                    }
-                    break;
-                case 10: 
-                    if (letra != "'") {
-                        if (letra == '\n') { fila++; columna = 0; }
                         this.auxiliar += letra;
                         estado = 10;
                     }
@@ -287,8 +279,27 @@ export class AnalizadorLexico {
                         this.auxiliar += letra;
                         i--; columna--;
                     }
+                    break;
+                case 11:
+                    if (letra == '"') {
+                        TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Cadena", fila, (columna - this.auxiliar.length));
+                        estado = 0;
+                        this.auxiliar = "";
+                    }
+                    break;   
+                case 12: 
+                    if (letra != "'") {
+                        if (letra == '\n') { fila++; columna = 0; }
+                        this.auxiliar += letra;
+                        estado = 12;
+                    }
+                    else {
+                        estado = 13;
+                        this.auxiliar += letra;
+                        i--; columna--;
+                    }
                     break;  
-                case 11: 
+                case 13: 
                     if (letra == "'") {
                         estado = 0;
                         var strTemp = this.auxiliar.replace("'", " ").replace("'", " ").trim();
@@ -303,22 +314,10 @@ export class AnalizadorLexico {
                         }
                         this.auxiliar = "";
                     }
-                    break; 
-                case 12:
-                    if(CaracteresLenguaje.getInstancia().esDigito(letra)){
-                        this.auxiliar += letra;
-                        estado = 12;
-                    } else {
-                        TokenControlador.getInstancia().agregarToken(this.auxiliar, "TK_Decimal", fila, (columna - this.auxiliar.length));  
-                        i--;
-                        columna--; 
-                        estado = 0;
-                        this.auxiliar = "";
-                    }  
-                    break; 
+                    break;    
                 default:
                     TokenControlador.getInstancia().agregarToken(letra.toString(), "TK_Desconocido", fila, columna);
-                    break;
+                    break;        
             }
         }
     }
