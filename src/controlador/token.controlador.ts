@@ -1,19 +1,19 @@
 import { Token } from 'src/modelo/token.modelo';
 
-export class TokenController{
+export class TokenControlador {
     private arregloToken: Token[] = [];
     private arregloError: Token[] = [];
     private idToken:number = 1;
     private idError:number = 1;
 
     //SINGLETON
-    private static instancia: TokenController;
+    private static instancia: TokenControlador;
 
     private constructor() { }
 
-    public static getInstancia(): TokenController {
+    public static getInstancia(): TokenControlador {
         if (this.instancia == null) {
-            this.instancia = new TokenController();
+            this.instancia = new TokenControlador();
         }
         return this.instancia;
     }
@@ -32,7 +32,7 @@ export class TokenController{
         this.idToken++;
     }
 
-    agregarError(fila: number, columna:number, lexema: string, descripcion:string){
+    agregarError(lexema: string, descripcion:string, fila: number, columna:number){
         var token = new Token(this.idError, lexema, descripcion, fila, columna);
         this.arregloError.push(token);
         this.idError++;

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { AnalizadorLexico } from 'src/analizador/lexico.analizador';
+import { TokenControlador } from 'src/controlador/token.controlador';
 
 @Component({
   selector: 'app-dashboard',
@@ -22,9 +24,12 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  obtenerTexto( strEntrada: string ){
+  obtenerTexto( entradaTexto: string ){
     console.clear();
-    console.log(strEntrada);
+    console.log(entradaTexto);
+
+    AnalizadorLexico.getInstancia().scanner(entradaTexto);
+    TokenControlador.getInstancia().imprimirToken();
 
   }
 
