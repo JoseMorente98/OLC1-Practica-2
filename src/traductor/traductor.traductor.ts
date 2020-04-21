@@ -6,7 +6,9 @@ import { TablaControlador } from 'src/controlador/tabla.controlador';
 export class Traductor {
     //SINGLETON
     private static instancia: Traductor;
-    //PROPIEDADES
+    /**
+     * PROPIEDADES
+     */
     private arregloToken: Token[] = [];
     private indiceActual:number = 0;
     private tokenActual:Token = null;
@@ -14,7 +16,9 @@ export class Traductor {
     private esFuncion:boolean = false;
     private esSwitchRepeticion:number = 0;
     private esRepeticion:number = 0;
-    //Prueba 
+    /**
+     * VARIABLES TRADUCCION
+     */
     private traductor: string = "";
     private arrayTraducido: Traduccion[] = [];
     private elementosHTML: string[] = [];
@@ -22,7 +26,9 @@ export class Traductor {
     private tipoDeDatos = ['TK_void','TK_int', 'TK_double', 'TK_char', 'TK_bool', 'TK_string'];
     private salidaError = "";
 
-    //PARTE DE TABLA DE SIMBOLOS
+    /**
+     * TABLA DE VARIABLES
+     */
     private tipo: string = "";
     private ambito: string = "";
     private tipoTemporal: string = "";
@@ -121,20 +127,16 @@ export class Traductor {
     }
 
     public tipoDeclaracion() {
-
-
         if(this.tipoDeDatos.includes(this.tokenActual.getDescripcion)) {
             this.tipo = this.tokenActual.getLexema;
             this.tipoTemporal = this.tokenActual.getLexema;
             this.match(this.tokenActual.getDescripcion);
-            //traduce el identificicador
             this.traductor = this.traductor + this.tokenActual.getLexema;
             this.TK_Identificador = this.tokenActual.getLexema;
             this.fila = this.tokenActual.getFila;
             this.match("TK_Identificador");
             this.asignacionVariableGlobal();
             this.tokenActual = this.arregloToken[this.indiceActual];
-            //ES FUNCION
             if(this.tokenActual.getDescripcion == "S_Parentesis_Izquierda") {
                 this.esFuncion = true;
                 this.agregarVariable("Funcion " + this.tipo, this.TK_Identificador, this.fila, this.ambito);
@@ -166,9 +168,8 @@ export class Traductor {
                 this.agregarTraduccion(this.traductor, "TK_Cadena");
                 this.agregarVariable(this.tipo, this.TK_Identificador, this.fila, this.ambito);   
             }
-        
+        }
     }
-}
 
     public listaAsignacionGlobal() {
         this.masElementosGlobal();
@@ -211,7 +212,6 @@ export class Traductor {
             this.match("TK_Numero");
         } else if(this.tokenActual.getDescripcion == "TK_Cadena") {
             this.match("TK_Cadena");
-        //FALTA CARACTER
         } else if(this.tokenActual.getDescripcion == "TK_Caracter") {
             this.match("TK_Caracter");
         } else if(this.tokenActual.getDescripcion == "TK_true") {
@@ -335,8 +335,6 @@ export class Traductor {
         }
     }
 
-
-//#region TRADUCIDOS
     //DECLARACION COMENTARIO
     public declaracionComentario() {
         this.comentario();
@@ -375,9 +373,6 @@ export class Traductor {
             }
         }
     }
-
-//#endregion    
-    
 
     //LISTA DECLARACION
     public listaDeclaracion() {
@@ -427,12 +422,10 @@ export class Traductor {
         if(this.esMetodo == true) {
             this.traductor = this.traductor + "return";
             this.match("TK_return");
-            //TIPO DE RETORNO
             this.match("S_Punto_Coma");
         } else if(this.esFuncion == true) {
             this.traductor = this.traductor + "return ";
             this.match("TK_return");
-            //TIPO DE RETORNO
             this.condicionesReturn();
             this.agregarTraduccion(this.traductor, "TK_Cadena");
             this.match("S_Punto_Coma");
@@ -441,7 +434,9 @@ export class Traductor {
     }
 
 
-    //DECLARACION CONSOLA
+    /**
+     * DECLARACION CONSOLA
+     */
     public declaracionConsole() {
         this.traductor = this.traductor + "print(";
         this.match("TK_console");
@@ -456,10 +451,9 @@ export class Traductor {
         this.listaDeclaracion();
     }
 
-
-
-    //#region  VARIABLE
-    //DECLARACION VARIABLE
+    /**
+     * DECLARACION VARIAABLE
+     */
     public declaracionVariable() {
         this.declaracionComentario();
         this.asignacion();
@@ -474,7 +468,6 @@ export class Traductor {
         this.asignacionVariable();
         this.match("S_Punto_Coma");
         this.agregarTraduccion(this.traductor, "TK_Cadena");
-        //this.agregarVariable(this.tipo, this.TK_Identificador, this.fila, this.ambito);
     }
 
     public otraAsignacion() {
@@ -556,14 +549,9 @@ export class Traductor {
         }
     }
 
-    //#endregion
-
-
-    
-
-
-    
-    //DECLARACION IF ELSEIF ELSE
+    /**
+     * DECLARACION IF ELSE
+     */
     public DeclaracionIf() {
         this.traductor = this.traductor + "if ";
         this.match("TK_if");
@@ -586,7 +574,9 @@ export class Traductor {
         this.declaracionComentario();
     }
 
-    //CONDICION IF
+    /**
+     * CONDICION IF
+     */
     public condicion() {
         this.tipoCondicion();
         this.operacionRelacional();
@@ -629,7 +619,10 @@ export class Traductor {
             //EPSILON
         }
     }
-    /* TKUEBA*/
+    
+    /**
+     * TIPO ELSE
+     */
     public tipoElse() {
         if(this.tokenActual.getDescripcion == 'TK_if') {
             this.traductor = this.traductor + "elif ";
@@ -1012,7 +1005,9 @@ export class Traductor {
         this.declaracionComentario();
     }
 
-    //DECLARACION SIN TIPO
+    /**
+     * DECLARACION SIN TIPO
+     */
     public declaracionSinTipo() {
         this.traductor = this.traductor + this.tokenActual.getLexema;
         this.TK_Identificador = this.tokenActual.getLexema;
@@ -1022,7 +1017,7 @@ export class Traductor {
         this.expresion();
         this.match("S_Punto_Coma");
         if(TablaControlador.getInstancia().buscar(this.TK_Identificador) == false){
-            this.salidaError = this.salidaError + "\n" + "*Error Sintactico: La variable '" + this.TK_Identificador + "' no ha sido declarada, Linea: "  + this.fila; 
+            this.salidaError = this.salidaError + "\n" + ">> Error Sintactico: La variable '" + this.TK_Identificador + "' no ha sido declarada, Linea: "  + this.fila; 
         } 
         this.agregarTraduccion(this.traductor, "TK_Cadena");
         this.declaracionComentario();
@@ -1030,7 +1025,9 @@ export class Traductor {
         this.declaracionComentario();
     }
 
-    //EXTKESION
+    /**
+     * EXPRESION
+     */
     public expresion() {
         this.termino();
         this.expresionPrima();
@@ -1137,7 +1134,9 @@ export class Traductor {
             this.match(this.tokenActual.getDescripcion);
             this.valorMetodoGlobal();
         } else {
-            console.error("Error se esperaba TK_Numero o TK_Cadena en lugar de " + this.tokenActual.getDescripcion);
+            this.salidaError = this.salidaError + "\n" + 
+                ">> Error Sintactico: Se esperaba cualquier tipo de dato en lugar de " + this.tokenActual.getDescripcion +
+                " en la Fila: " + this.tokenActual.fila + " y Columna: " +this.tokenActual.columna;
         }
     }
 
@@ -1305,7 +1304,9 @@ export class Traductor {
                     this.match(this.tokenActual.getDescripcion);
                 }
             } else {
-                console.error("Error se esperaba TK_Numero o TK_Cadena en lugar de " + this.tokenActual.getDescripcion);
+                this.salidaError = this.salidaError + "\n" + 
+                ">> Error Sintactico: Se esperaba cualquier tipo de dato en lugar de " + this.tokenActual.getDescripcion +
+                " en la Fila: " + this.tokenActual.fila + " y Columna: " +this.tokenActual.columna;
             }
         }
     }
@@ -1452,7 +1453,9 @@ export class Traductor {
                     this.match(this.tokenActual.getDescripcion);
                 }
             } else {
-                console.error("Error se esperaba TK_Numero o TK_Cadena en lugar de " + this.tokenActual.getDescripcion);
+                this.salidaError = this.salidaError + "\n" + 
+                ">> Error Sintactico: Se esperaba cualquier tipo de dato en lugar de " + this.tokenActual.getDescripcion +
+                " en la Fila: " + this.tokenActual.fila + " y Columna: " +this.tokenActual.columna;
             }
         }
     }
@@ -1478,14 +1481,18 @@ export class Traductor {
         }
     }
 
-
-
+    /**
+     * METODO MATCH COINCIDE LOS TOKENS
+     */
     public match(token:string)
     {
         if(this.tokenActual!=null){
             if (this.tokenActual.getDescripcion!=token)
             {
-                console.error("Error se esperaba "+ token + " en lugar de " + this.tokenActual.getDescripcion);
+                this.salidaError = this.salidaError + "\n" + 
+                ">> Error Sintactico: Se esperaba " + token + " en lugar de " + this.tokenActual.getDescripcion +
+                " en la Fila: " + this.tokenActual.fila + " y Columna: " +this.tokenActual.columna;
+
                 for (let indiceActual = this.indiceActual; indiceActual < this.arregloToken.length; indiceActual++) {
                     console.log(this.tokenActual.getDescripcion)
                     this.tokenActual = this.arregloToken[this.indiceActual];
@@ -1520,7 +1527,7 @@ export class Traductor {
         if(TablaControlador.getInstancia().buscar(TK_Identificador, ambito) == false){
             TablaControlador.getInstancia().agregar(TK_Identificador, tipo, ambito, fila);
         } else {
-            this.salidaError = this.salidaError + "\n" + "*Error Sintactico: La variable '" + TK_Identificador + "' ya fue declarada, Linea: " + fila;
+            this.salidaError = this.salidaError + "\n" + ">> Error Sintactico: La variable '" + TK_Identificador + "' ya fue declarada, Linea: " + fila;
         }
         this.fila = 0;
         this.TK_Identificador = this.tipo = "";

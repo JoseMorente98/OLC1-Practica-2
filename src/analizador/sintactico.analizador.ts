@@ -1171,7 +1171,9 @@ export class AnalizadorSintactico {
         }
     }
 
-    /*_______________________________________________NUEVAS CONDICIONES____________________________________________ */
+    /**
+     * CONDICIONES
+     */
     private condiciones() {
         if(this.tokenActual.getDescripcion != "S_Parentesis_Derecha") {
             this.expresion2();
@@ -1318,8 +1320,9 @@ export class AnalizadorSintactico {
         
     }
 
-    /*_______________________________________________CONDICIONES RETURN____________________________________________ */
-
+    /**
+     * CONDICIONES DE RETORNO
+     */
     private condicionesReturn() {
         if(this.tokenActual.getDescripcion != "S_Punto_Coma") {
             this.expresion2();
@@ -1474,7 +1477,8 @@ export class AnalizadorSintactico {
 
             if (this.tokenActual.getDescripcion!=token)
             {
-                console.error("Error se esperaba "+ token + " en lugar de " + this.tokenActual.getDescripcion);
+                console.error(">> Error Sintactico: Se esperaba " + token + " en lugar de " + this.tokenActual.getDescripcion +
+                " en la Fila: " + this.tokenActual.fila + " y Columna: " +this.tokenActual.columna);
                 
                 for (let indiceActual = this.indiceActual; indiceActual < this.arregloToken.length; indiceActual++) {
                     this.tokenActual = this.arregloToken[this.indiceActual];
@@ -1503,7 +1507,5 @@ export class AnalizadorSintactico {
             }
         }
     }
-
-
 
 }
