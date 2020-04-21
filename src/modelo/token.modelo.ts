@@ -53,7 +53,7 @@ export class Token {
         this.columna = v;
     }
 
-    toString(){
+    toString() {
         return {
             "id" : this.id,
             "lexema" : this.lexema,

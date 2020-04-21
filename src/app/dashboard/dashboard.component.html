@@ -11,8 +11,6 @@
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
           <p class="dropdown-item" (click)="agregarTabs()">Nuevo Pestaña</p>
-          <p class="dropdown-item" >Abrir Documento</p>
-          <p class="dropdown-item" >Guardar Como</p>
         </div>
       </li>
     </ul>
@@ -25,7 +23,7 @@
         <p class="lead">Organización de Lenguajes y Compiladores 1</p>
     </div>
 </div>
-<div class="container">
+<div style="padding: 10px;">
   <div class="row">
     <div class="col" style="height: 400px;">
       <ul class="nav nav-tabs">
@@ -37,16 +35,43 @@
           <div class="tab-pane" id="Tab{{data}}" *ngFor="let data of tabs">
             <form>
             <div class="form-group">
-              <textarea #textArea class="form-control" id="exampleFormControlTextarea1" rows="12" placeholder="Editor de Texto"></textarea>
+              <textarea #textArea class="form-control" id="editorTexto{{data}}" rows="12" placeholder="Editor de Texto"></textarea>
             </div>
-            <button type="button" class="btn btn-outline-dark" (click)="obtenerTexto(textArea.value)">Analizar</button>
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+              <input type="file" accept=".cs" class="btn btn-outline-dark form-control-file"
+              (change)="cargarArchivo($event)">
+              <button type="button" class="btn btn-outline-warning" (click)="cargarDocumento(data)">Leer Documento</button>
+              <button type="button" class="btn btn-outline-success" (click)="obtenerTexto(textArea.value)">Analizar</button>
+            </div>
+            
             </form>
           </div>
       </div>
     </div>
-    <div class="col" style="height: 400px;">
-      <div class="form-group" style="height: 100%;">
-        <textarea style="height: 100%;" class="form-control" id="exampleFormControlTextarea2" rows="10" placeholder="Consola"></textarea>
+    <div class="col">
+      <ul class="nav nav-tabs">
+      <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#TabConsola">Traduccion</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#TabTraduccion">Consola</a>
+      </li>
+      </ul>
+      <div class="tab-content">
+          <div class="tab-pane" id="TabConsola">
+            <form>
+            <div class="form-group">
+              <textarea #textAreaTraduccion class="form-control" id="textAreaTraduccion" rows="12" placeholder="Traduccion"></textarea>
+            </div>
+            </form>
+          </div>
+          <div class="tab-pane" id="TabTraduccion">
+            <form>
+            <div class="form-group">
+              <textarea #textAreaConsola class="form-control" id="textAreaConsola" rows="12" placeholder="Consola"></textarea>
+            </div>
+            </form>
+          </div>
       </div>
     </div>
   </div>
@@ -59,32 +84,23 @@
         <thead>
           <tr>
             <th scope="col">#</th>
-            <th scope="col">First</th>
-            <th scope="col">Last</th>
-            <th scope="col">Handle</th>
+            <th scope="col">Tipo</th>
+            <th scope="col">Identificador</th>
+            <th scope="col">Fila</th>
+            <th scope="col">Ambito</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <th scope="row">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>@mdo</td>
-          </tr>
-          <tr>
-            <th scope="row">2</th>
-            <td>Jacob</td>
-            <td>Thornton</td>
-            <td>@fat</td>
-          </tr>
-          <tr>
-            <th scope="row">3</th>
-            <td>Larry</td>
-            <td>the Bird</td>
-            <td>@twitter</td>
+          <tr *ngFor="let data of arregloSimbolos | paginate: { itemsPerPage: 10, currentPage: p }">
+            <td scope="row">{{data.id}}</td>
+            <td>{{data.tipo}}</td>
+            <td>{{data.identificador}}</td>
+            <td>{{data.fila}}</td>
+            <td>{{data.ambito}}</td>
           </tr>
         </tbody>
       </table>
+      <pagination-controls (pageChange)="p = $event"></pagination-controls>
     </div>
     <div class="col">
       <ul class="nav nav-tabs">
@@ -99,14 +115,14 @@
           <div class="tab-pane" id="TabHTML">
             <form>
             <div class="form-group">
-              <textarea #textAreaHTML class="form-control" id="exampleFormControlTextareaHTML" rows="12" placeholder="Editor de HTML"></textarea>
+              <textarea #textAreaHTML class="form-control" id="textAreaHTML" rows="12" placeholder="Editor de HTML"></textarea>
             </div>
             </form>
           </div>
           <div class="tab-pane" id="TabJSON">
             <form>
             <div class="form-group">
-              <textarea #textAreaJSON class="form-control" id="exampleFormControlTextareaJSON" rows="12" placeholder="Editor de JSON"></textarea>
+              <textarea #textAreaJSON class="form-control" id="textAreaJSON" rows="12" placeholder="Editor de JSON"></textarea>
             </div>
             </form>
           </div>
