@@ -12,11 +12,15 @@ import { TablaControlador } from 'src/controlador/tabla.controlador';
 })
 export class DashboardComponent implements OnInit {
   p: number = 1;
+  q: number = 1;
+  r: number = 1;
   tabs:any = []
   noTabs:number = 0;
   seletedItem:string;
   file:any;
   arregloSimbolos:any[] = [];
+  arregloTokens:any[] = [];
+  arregloErrores:any[] = [];
 
   constructor() {
     this.tabs[this.noTabs] = this.noTabs +1;
@@ -101,6 +105,14 @@ export class DashboardComponent implements OnInit {
      */
     this.arregloSimbolos = [];
     this.arregloSimbolos = TablaControlador.getInstancia().getArregloTabla;
+
+    /**
+     * MOSTRAR TOKENS
+     */
+    this.arregloTokens = [];
+    this.arregloErrores = [];
+    this.arregloTokens = TokenControlador.getInstancia().getArregloToken;
+    this.arregloErrores = TokenControlador.getInstancia().getArregloError;
   }
 
   public agregarTabs() {
